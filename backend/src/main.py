@@ -1,8 +1,6 @@
 import os
 import sys
 from datetime import timedelta
-# DON'T CHANGE THIS !!!
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from flask import Flask, send_from_directory
 from flask_cors import CORS
@@ -128,4 +126,5 @@ def internal_error(error):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+
 
