@@ -1,333 +1,214 @@
 # Sistema de Inventario Blockchain
 
-Un sistema completo de gestión de inventario que combina tecnología blockchain con bases de datos tradicionales para proporcionar transparencia, trazabilidad e inmutabilidad en el control de inventarios.
+Un sistema completo de gestión de inventario que integra tecnología blockchain para garantizar la trazabilidad e inmutabilidad de las transacciones.
 
 ## 🚀 Características Principales
 
-- **💼 Gestión Completa de Inventario**: Control total de productos, ubicaciones, proveedores y categorías
-- **🔗 Integración Blockchain**: Registro inmutable de todas las transacciones críticas
-- **📊 Dashboard Intuitivo**: Panel de control con métricas en tiempo real
-- **🔐 Autenticación Segura**: Sistema JWT con roles diferenciados
-- **📱 Interfaz Responsiva**: Diseño moderno compatible con dispositivos móviles
-- **🔍 Auditoría Completa**: Trazabilidad total de todas las operaciones
-- **⚡ Alertas Automáticas**: Notificaciones de stock bajo y eventos importantes
-- **📈 Reportes Avanzados**: Generación de reportes detallados y exportación
+- **Backend Flask** con API RESTful completa
+- **Frontend React** con interfaz moderna y responsiva
+- **Smart Contracts** en Solidity para blockchain
+- **Base de datos SQLite** con esquema completo
+- **Integración blockchain** para inmutabilidad
+- **Sistema de autenticación** JWT seguro
+- **Dashboard** con métricas en tiempo real
+- **Gestión completa** de productos, inventario y transacciones
 
-## 🏗️ Arquitectura del Sistema
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │    │    Backend      │    │   Blockchain    │
-│   (React)       │◄──►│   (Flask)       │◄──►│   (Ethereum)    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                              │
-                              ▼
-                       ┌─────────────────┐
-                       │   Base de Datos │
-                       │   (SQLite)      │
-                       └─────────────────┘
-```
-
-## 🛠️ Tecnologías Utilizadas
-
-### Frontend
-- **React 18** - Framework de interfaz de usuario
-- **Vite** - Herramienta de construcción rápida
-- **CSS3** - Estilos modernos y responsivos
-
-### Backend
-- **Flask** - Framework web de Python
-- **SQLAlchemy** - ORM para base de datos
-- **JWT** - Autenticación segura
-- **bcrypt** - Cifrado de contraseñas
-
-### Blockchain
-- **Solidity** - Lenguaje de smart contracts
-- **Web3.py** - Integración con Ethereum
-- **Truffle** - Framework de desarrollo blockchain
-- **Ganache** - Blockchain local para desarrollo
-
-### Base de Datos
-- **SQLite** - Base de datos local eficiente
-
-## 📦 Instalación
-
-### Requisitos Previos
+## 📋 Requisitos del Sistema
 
 - Python 3.11+
 - Node.js 20+
-- npm/pnpm
+- npm o pnpm
 - Git
 
-### Instalación Rápida
+## 🛠️ Instalación
 
-1. **Clonar el repositorio**
+### 1. Clonar el Repositorio
+
 ```bash
-git clone <repository-url>
+git clone https://github.com/Mye270419/blockchain-inventory-system.git
 cd blockchain-inventory-system
 ```
 
-2. **Configurar Backend**
+### 2. Configurar Backend
+
 ```bash
 cd backend
+
+# Crear entorno virtual
 python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
+
+# Activar entorno virtual
+# En Windows:
+venv\Scripts\activate
+# En Linux/macOS:
+source venv/bin/activate
+
+# Instalar dependencias
 pip install -r requirements.txt
+
+# Crear directorio de base de datos
 mkdir -p database
+
+# Inicializar base de datos con datos de prueba
 python simple_init.py
 ```
 
-3. **Configurar Frontend**
+### 3. Configurar Frontend
+
 ```bash
 cd ../frontend
+
+# Instalar dependencias
 pnpm install
+# o si usas npm:
+# npm install
 ```
 
-4. **Configurar Blockchain (Opcional)**
-```bash
-cd ../contracts
-npm install
+### 4. Configurar Variables de Entorno
+
+Crear archivo `.env` en la carpeta `backend`:
+
+```env
+SECRET_KEY=tu_clave_secreta_aqui
+JWT_SECRET_KEY=tu_jwt_secret_aqui
+FLASK_ENV=development
 ```
 
-## 🚀 Uso
+## 🚀 Ejecución
 
-### Iniciar el Sistema
+### Iniciar Backend
 
-1. **Backend** (Terminal 1):
 ```bash
 cd backend
+
+# Activar entorno virtual
+# En Windows:
+venv\Scripts\activate
+# En Linux/macOS:
 source venv/bin/activate
-python src/main.py
+
+# Ejecutar servidor Flask
+python run.py
 ```
 
-2. **Frontend** (Terminal 2):
+El backend estará disponible en: `http://localhost:5000`
+
+### Iniciar Frontend
+
 ```bash
 cd frontend
+
+# Ejecutar servidor de desarrollo
 pnpm run dev --host
+# o si usas npm:
+# npm run dev -- --host
 ```
 
-3. **Blockchain Local** (Terminal 3 - Opcional):
+El frontend estará disponible en: `http://localhost:5173`
+
+## 🔐 Credenciales por Defecto
+
+- **Administrador:**
+  - Usuario: `admin`
+  - Contraseña: `admin123`
+
+- **Operador:**
+  - Usuario: `usuario`
+  - Contraseña: `user123`
+
+## 🔧 Cambiar Contraseñas
+
+Para cambiar las contraseñas por defecto por razones de seguridad:
+
 ```bash
-cd contracts
-npx ganache-cli --deterministic --accounts 10 --host 0.0.0.0
+cd backend
+
+# Activar entorno virtual
+source venv/bin/activate  # Linux/macOS
+# o venv\Scripts\activate  # Windows
+
+# Cambiar contraseñas
+python simple_init.py --update-passwords --admin-password nueva_admin_pass --user-password nueva_user_pass
 ```
-
-### Acceso al Sistema
-
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:5000
-- **Blockchain**: http://localhost:8545
-
-### Credenciales por Defecto
-
-**Administrador**:
-- Usuario: `admin`
-- Contraseña: `admin123`
-
-**Operador**:
-- Usuario: `usuario`
-- Contraseña: `user123`
 
 ## 📁 Estructura del Proyecto
 
 ```
 blockchain-inventory-system/
-├── backend/                 # Aplicación Flask
+├── backend/                 # Servidor Flask
 │   ├── src/
-│   │   ├── main.py         # Aplicación principal
-│   │   ├── models/         # Modelos de datos
-│   │   ├── routes/         # Endpoints de API
-│   │   └── services/       # Servicios de negocio
+│   │   ├── models/         # Modelos de base de datos
+│   │   ├── routes/         # Rutas de la API
+│   │   ├── services/       # Servicios de negocio
+│   │   └── main.py         # Aplicación principal
 │   ├── database/           # Base de datos SQLite
-│   └── requirements.txt    # Dependencias Python
+│   ├── run.py              # Script de ejecución
+│   └── simple_init.py      # Inicialización de datos
 ├── frontend/               # Aplicación React
 │   ├── src/
 │   │   ├── components/     # Componentes React
-│   │   ├── contexts/       # Contextos de estado
-│   │   └── App.jsx        # Componente principal
-│   └── package.json       # Dependencias Node.js
-├── contracts/              # Smart Contracts
-│   ├── contracts/         # Archivos .sol
-│   ├── migrations/        # Scripts de despliegue
-│   └── test/             # Pruebas de contratos
-├── docs/                  # Documentación
-│   ├── manual-tecnico.md  # Manual técnico completo
-│   ├── manual-usuario.md  # Manual de usuario
-│   └── arquitectura.md    # Documentación de arquitectura
-└── scripts/               # Scripts de utilidad
+│   │   ├── contexts/       # Contextos de React
+│   │   └── App.jsx         # Componente principal
+├── contracts/              # Smart contracts Solidity
+├── docs/                   # Documentación
+└── README.md
 ```
 
-## 📚 Documentación
-
-- **[Manual Técnico](docs/manual-tecnico.md)** - Documentación completa para desarrolladores
-- **[Manual de Usuario](docs/manual-usuario.md)** - Guía para usuarios finales
-- **[Arquitectura del Sistema](docs/arquitectura.md)** - Diseño y componentes del sistema
-
-## 🔧 API Endpoints
+## 🔗 API Endpoints
 
 ### Autenticación
 - `POST /api/auth/login` - Iniciar sesión
-- `POST /api/auth/register` - Registrar usuario
+- `POST /api/auth/logout` - Cerrar sesión
 
 ### Productos
-- `GET /api/products/` - Listar productos
-- `POST /api/products/` - Crear producto
+- `GET /api/products` - Listar productos
+- `POST /api/products` - Crear producto
 - `PUT /api/products/{id}` - Actualizar producto
 - `DELETE /api/products/{id}` - Eliminar producto
 
 ### Inventario
-- `GET /api/inventory/` - Estado del inventario
-- `GET /api/inventory/low-stock` - Productos con stock bajo
+- `GET /api/inventory` - Consultar inventario
+- `POST /api/inventory/adjust` - Ajustar inventario
 
 ### Transacciones
-- `GET /api/transactions/` - Historial de transacciones
-- `POST /api/transactions/` - Registrar transacción
+- `GET /api/transactions` - Listar transacciones
+- `POST /api/transactions` - Crear transacción
 
 ### Blockchain
-- `GET /api/blockchain/network-info` - Información de la red
-- `GET /api/blockchain/products/{id}` - Producto en blockchain
-- `GET /api/blockchain/transactions/{id}` - Transacción en blockchain
+- `GET /api/blockchain/status` - Estado de blockchain
+- `POST /api/blockchain/verify` - Verificar transacción
 
-## 🔐 Seguridad
+## 🛡️ Seguridad
 
-- **Autenticación JWT** con tokens de 24 horas
-- **Cifrado bcrypt** para contraseñas
-- **Validación de datos** en frontend y backend
-- **Roles de usuario** (Administrador/Operador)
-- **Registro inmutable** en blockchain
-- **Auditoría completa** de todas las operaciones
+- Autenticación JWT
+- Validación de entrada
+- Sanitización de datos
+- Encriptación de contraseñas con bcrypt
+- Auditoría blockchain
 
-## 🧪 Pruebas
+## 📚 Documentación Adicional
 
-### Backend
-```bash
-cd backend
-source venv/bin/activate
-python -m pytest tests/
-```
-
-### Smart Contracts
-```bash
-cd contracts
-npx truffle test
-```
-
-### Frontend
-```bash
-cd frontend
-pnpm test
-```
-
-## 📊 Características del Sistema
-
-### Gestión de Productos
-- Catálogo completo con códigos únicos
-- Categorización y clasificación
-- Información de proveedores
-- Control de precios y unidades de medida
-- Stock mínimo configurable
-
-### Control de Inventario
-- Múltiples ubicaciones/almacenes
-- Stock en tiempo real
-- Alertas de stock bajo
-- Trazabilidad completa
-- Valorización de inventario
-
-### Transacciones
-- Entradas (compras, devoluciones, ajustes)
-- Salidas (ventas, transferencias, mermas)
-- Registro automático en blockchain
-- Historial inmutable
-- Referencias y observaciones
-
-### Reportes
-- Inventario actual por ubicación
-- Movimientos por período
-- Productos con stock bajo
-- Valorización de inventario
-- Exportación a Excel/PDF
-
-## 🔗 Integración Blockchain
-
-### Funcionalidades
-- **Registro de Productos**: Cada producto se registra en blockchain
-- **Transacciones Inmutables**: Todas las operaciones críticas se almacenan
-- **Verificación de Integridad**: Validación de datos contra blockchain
-- **Auditoría Transparente**: Historial público y verificable
-
-### Smart Contracts
-- `InventoryContract.sol` - Contrato principal
-- Funciones para registro de productos y transacciones
-- Eventos para auditoría y notificaciones
-- Estructuras de datos optimizadas
-
-### Modo de Operación
-- **Conectado**: Registro directo en blockchain
-- **Simulado**: Operación local cuando blockchain no está disponible
-- **Sincronización**: Automática cuando se restablece la conexión
-
-## 🚀 Despliegue en Producción
-
-### Requisitos del Servidor
-- **CPU**: 2+ cores
-- **RAM**: 4GB mínimo, 8GB recomendado
-- **Almacenamiento**: 10GB+ SSD
-- **Red**: Conexión estable a internet
-
-### Variables de Entorno
-```env
-FLASK_ENV=production
-SECRET_KEY=tu-clave-secreta-muy-segura
-DATABASE_URL=sqlite:///database/app.db
-JWT_SECRET_KEY=tu-jwt-secret-key
-BLOCKCHAIN_URL=http://localhost:8545
-```
-
-### Servicios Systemd
-Configurar servicios para inicio automático del backend y frontend.
+- [Manual Técnico](docs/manual-tecnico.md)
+- [Manual de Usuario](docs/manual-usuario.md)
+- [Arquitectura del Sistema](docs/arquitectura.md)
 
 ## 🤝 Contribución
 
 1. Fork el proyecto
-2. Crear una rama para la característica (`git checkout -b feature/AmazingFeature`)
-3. Commit los cambios (`git commit -m 'Add some AmazingFeature'`)
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
 4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abrir un Pull Request
+5. Abre un Pull Request
 
-## 📝 Licencia
+## 📄 Licencia
 
 Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
 ## 📞 Soporte
 
-- **Email**: soporte@inventario-blockchain.com
-- **Documentación**: [Manual Técnico](docs/manual-tecnico.md)
-- **Issues**: [GitHub Issues](../../issues)
-
-## 🎯 Roadmap
-
-### Versión 1.1
-- [ ] Integración con APIs de proveedores
-- [ ] Notificaciones por email
-- [ ] Reportes avanzados con gráficos
-- [ ] Aplicación móvil
-
-### Versión 1.2
-- [ ] Integración con códigos de barras/QR
-- [ ] Múltiples monedas
-- [ ] Workflow de aprobaciones
-- [ ] Dashboard ejecutivo
-
-### Versión 2.0
-- [ ] Inteligencia artificial para predicción de demanda
-- [ ] Integración con ERP externos
-- [ ] Blockchain pública (Ethereum mainnet)
-- [ ] Marketplace de productos
+Si tienes alguna pregunta o problema, por favor abre un issue en el repositorio de GitHub.
 
 ---
 
-**Desarrollado con ❤️ por el equipo de Sistema de Inventario Blockchain**
-
-*Versión 1.0 - Enero 2025*
+**Desarrollado con ❤️ usando Flask, React y Blockchain**
 

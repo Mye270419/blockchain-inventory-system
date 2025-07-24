@@ -7,6 +7,9 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 
+# Añadir el directorio raíz del backend al path para importar módulos
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 # Importar modelos
 from src.models.user import db as user_db
 from src.models.inventory import db, Usuario, Categoria, Proveedor, Producto, Ubicacion, Inventario, TipoTransaccion, Transaccion, AuditoriaBlockchain
@@ -123,8 +126,4 @@ def not_found(error):
 @app.errorhandler(500)
 def internal_error(error):
     return {'error': 'Error interno del servidor'}, 500
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
-
 
