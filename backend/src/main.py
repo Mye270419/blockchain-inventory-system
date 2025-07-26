@@ -11,11 +11,9 @@ from dotenv import load_dotenv
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Importar modelos
-from src.models.user import db as user_db
 from src.models.inventory import db, Usuario, Categoria, Proveedor, Producto, Ubicacion, Inventario, TipoTransaccion, Transaccion, AuditoriaBlockchain
 
 # Importar blueprints
-from src.routes.user import user_bp
 from src.routes.auth import auth_bp
 from src.routes.products import products_bp
 from src.routes.inventory import inventory_bp
@@ -45,7 +43,7 @@ db.init_app(app)
 
 # Registrar blueprints
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
-app.register_blueprint(user_bp, url_prefix='/api/users')
+
 app.register_blueprint(products_bp, url_prefix='/api/products')
 app.register_blueprint(inventory_bp, url_prefix='/api/inventory')
 app.register_blueprint(transactions_bp, url_prefix='/api/transactions')
