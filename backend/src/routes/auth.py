@@ -34,13 +34,7 @@ def login():
         db.session.commit()
         
         # Crear token JWT
-        access_token = create_access_token(
-            identity=usuario.id,
-            additional_claims={
-                'username': usuario.username,
-                'rol': usuario.rol
-            }
-        )
+        access_token = create_access_token(identity=usuario.id)
         
         return jsonify({
             'access_token': access_token,

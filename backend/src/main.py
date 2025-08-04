@@ -2,7 +2,7 @@ import os
 import sys
 from datetime import timedelta
 
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
@@ -29,6 +29,14 @@ app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'sta
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'asdf#FGSgvasgf$5$WGT')
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'jwt-secret-string')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
+# Deshabilitar completamente CSRF
+app.config['JWT_CSRF_IN_COOKIES'] = False
+app.config['JWT_CSRF_CHECK_FORM'] = False
+app.config['JWT_CSRF_METHODS'] = []
+app.config['JWT_ACCESS_CSRF_HEADER_NAME'] = None
+app.config['JWT_REFRESH_CSRF_HEADER_NAME'] = None
+app.config['JWT_ACCESS_CSRF_FIELD_NAME'] = None
+app.config['JWT_REFRESH_CSRF_FIELD_NAME'] = None
 
 # Configuración de base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"
@@ -40,6 +48,27 @@ CORS(app, origins="*")
 # Inicializar extensiones
 jwt = JWTManager(app)
 db.init_app(app)
+
+# Manejadores de errores JWT
+@jwt.expired_token_loader
+def expired_token_callback(jwt_header, jwt_payload):
+    return jsonify({'error': 'Token expirado'}), 401
+
+@jwt.invalid_token_loader
+def invalid_token_callback(error):
+    return jsonify({'error': 'Token inválido'}), 422
+
+@jwt.unauthorized_loader
+def missing_token_callback(error):
+    return jsonify({'error': 'Token de autorización requerido'}), 401
+
+@jwt.needs_fresh_token_loader
+def token_not_fresh_callback(jwt_header, jwt_payload):
+    return jsonify({'error': 'Token fresco requerido'}), 401
+
+@jwt.revoked_token_loader
+def revoked_token_callback(jwt_header, jwt_payload):
+    return jsonify({'error': 'Token revocado'}), 401
 
 # Registrar blueprints
 app.register_blueprint(auth_bp, url_prefix='/api/auth')

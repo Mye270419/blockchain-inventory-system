@@ -38,8 +38,13 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         setUser(data.user);
+      } else if (response.status === 422 || response.status === 401) {
+        // Token inválido o expirado
+        console.log('Token inválido o expirado, cerrando sesión');
+        logout();
       } else {
-        // Token inválido
+        // Otros errores
+        console.error('Error en fetchProfile:', response.status);
         logout();
       }
     } catch (error) {
@@ -96,7 +101,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await fetch(url, config);
       
-      if (response.status === 401) {
+      if (response.status === 401 || response.status === 422) {
+        console.log('Token inválido o expirado en apiCall, cerrando sesión');
         logout();
         throw new Error('Sesión expirada');
       }
