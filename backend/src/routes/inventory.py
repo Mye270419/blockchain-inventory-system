@@ -7,7 +7,6 @@ from src.models.inventory import db, Inventario, Producto, Ubicacion, Usuario
 inventory_bp = Blueprint("inventory", __name__)
 
 @inventory_bp.route("/", methods=["GET"])
-@jwt_required()
 def get_inventory():
     """Obtener estado del inventario con filtros opcionales"""
     try:
@@ -56,7 +55,6 @@ def get_inventory():
         return jsonify({"error": str(e)}), 500
 
 @inventory_bp.route("/summary", methods=["GET"])
-@jwt_required()
 def get_inventory_summary():
     """Obtener resumen del inventario"""
     try:
@@ -125,7 +123,6 @@ def get_inventory_summary():
         return jsonify({"error": str(e)}), 500
 
 @inventory_bp.route("/by-location", methods=["GET"])
-@jwt_required()
 def get_inventory_by_location():
     """Obtener inventario agrupado por ubicación"""
     try:
@@ -174,7 +171,6 @@ def get_inventory_by_location():
         return jsonify({"error": str(e)}), 500
 
 @inventory_bp.route("/by-product", methods=["GET"])
-@jwt_required()
 def get_inventory_by_product():
     """Obtener inventario agrupado por producto"""
     try:
@@ -226,7 +222,6 @@ def get_inventory_by_product():
         return jsonify({"error": str(e)}), 500
 
 @inventory_bp.route("/adjust", methods=["POST"])
-@jwt_required()
 def adjust_inventory():
     """Ajustar inventario manualmente"""
     try:
@@ -277,7 +272,6 @@ def adjust_inventory():
         return jsonify({"error": str(e)}), 500
 
 @inventory_bp.route("/locations", methods=["GET"])
-@jwt_required()
 def get_locations():
     """Obtener lista de ubicaciones"""
     try:
@@ -291,7 +285,6 @@ def get_locations():
         return jsonify({"error": str(e)}), 500
 
 @inventory_bp.route("/locations", methods=["POST"])
-@jwt_required()
 def create_location():
     """Crear nueva ubicación"""
     try:

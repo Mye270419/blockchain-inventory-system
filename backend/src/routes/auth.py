@@ -50,8 +50,7 @@ def login():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@auth_bp.route('/register', methods=['POST'])
-@jwt_required()
+@auth_bp.route("/register", methods=["POST"])
 def register():
     """Registrar nuevo usuario (solo administradores)"""
     try:
@@ -97,8 +96,7 @@ def register():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-@auth_bp.route('/profile', methods=['GET'])
-@jwt_required()
+@auth_bp.route("/profile", methods=["GET"])
 def get_profile():
     """Obtener perfil del usuario actual"""
     try:
@@ -116,8 +114,7 @@ def get_profile():
         print(f"DEBUG: Error en /profile: {e}") # Debugging line
         return jsonify({'error': str(e)}), 500
 
-@auth_bp.route('/change-password', methods=['POST'])
-@jwt_required()
+@auth_bp.route("/change-password", methods=["POST"])
 def change_password():
     """Cambiar contraseña del usuario actual"""
     try:
@@ -148,8 +145,7 @@ def change_password():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-@auth_bp.route('/logout', methods=['POST'])
-@jwt_required()
+@auth_bp.route("/logout", methods=["POST"])
 def logout():
     """Cerrar sesión (en el frontend se debe eliminar el token)"""
     return jsonify({'message': 'Sesión cerrada exitosamente'}), 200
