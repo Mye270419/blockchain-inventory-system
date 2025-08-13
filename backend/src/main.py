@@ -3,15 +3,16 @@ import sys
 from datetime import timedelta
 
 from flask import Flask, send_from_directory
-from flask_cors import CORS
-from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 
 # Añadir el directorio raíz del backend al path para importar módulos
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),from src.models.inventory import db, Usuario, Categoria, Proveedor, Producto, Ubicacion, Inventario, TipoTransaccion, Transaccion, AuditoriaBlockchain
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from src.models.inventory import db, Usuario, Categoria, Proveedor, Producto, Ubicacion, Inventario, TipoTransaccion, Transaccion, AuditoriaBlockchain
 
 # Importar blueprints
-from src.routes.auth import auth_bp src.routes.inventory import inventory_bp
+from src.routes.auth import auth_bp
+from src.routes.products import products_bp
+from src.routes.inventory import inventory_bp
 from src.routes.transactions import transactions_bp
 from src.routes.blockchain import blockchain_bp
 
@@ -22,23 +23,12 @@ app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'sta
 
 # Configuración
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'asdf#FGSgvasgf$5$WGT')
-app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'jwt-secret-string')
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
-
-# Configuración de base de datos
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Configuración de CORS
-CORS(app, origins="*")
 
 # Inicializar extensiones
-jwt = JWTManager(app)
 db.init_app(app)
 
 # Registrar blueprints
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
-
 app.register_blueprint(products_bp, url_prefix='/api/products')
 app.register_blueprint(inventory_bp, url_prefix='/api/inventory')
 app.register_blueprint(transactions_bp, url_prefix='/api/transactions')
@@ -119,4 +109,5 @@ def not_found(error):
 @app.errorhandler(500)
 def internal_error(error):
     return {'error': 'Error interno del servidor'}, 500
+
 
