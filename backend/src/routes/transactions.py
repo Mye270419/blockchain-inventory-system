@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
 
 from src.models.inventory import db, Transaccion, Producto, Ubicacion, TipoTransaccion, Usuario, Inventario, AuditoriaBlockchain
@@ -65,7 +64,6 @@ def get_transactions():
 def create_transaction():
     """Crear una nueva transacción y actualizar inventario"""
     try:
-        current_user_id = get_jwt_identity()
         data = request.get_json()
         
         if not data or not all(k in data for k in ["producto_id", "ubicacion_id", "tipo_transaccion_id", "cantidad"]):
@@ -119,7 +117,7 @@ def create_transaction():
             ubicacion_id=ubicacion_id,
             tipo_transaccion_id=tipo_transaccion_id,
             cantidad=cantidad,
-            usuario_id=current_user_id,
+            usuario_id=None,
             comentarios=data.get("comentarios")
         )
         db.session.add(nueva_transaccion)
@@ -133,7 +131,7 @@ def create_transaction():
             ubicacion.nombre,
             tipo_transaccion.nombre,
             cantidad,
-            current_user_id
+            None
         )
         
         auditoria = AuditoriaBlockchain(

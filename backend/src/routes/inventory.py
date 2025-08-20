@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy import func
 
 from src.models.inventory import db, Inventario, Producto, Ubicacion, Usuario
@@ -225,7 +224,6 @@ def get_inventory_by_product():
 def adjust_inventory():
     """Ajustar inventario manualmente"""
     try:
-        current_user_id = get_jwt_identity()
         data = request.get_json()
         
         if not data or not all(k in data for k in ["producto_id", "ubicacion_id", "nueva_cantidad"]):
@@ -312,11 +310,9 @@ def create_location():
         return jsonify({"error": str(e)}), 500
 
 @inventory_bp.route("/transfer", methods=["POST"])
-@jwt_required()
 def transfer_inventory():
     """Transferir inventario entre ubicaciones"""
     try:
-        current_user_id = get_jwt_identity()
         data = request.get_json()
         
         if not data or not all(k in data for k in ["producto_id", "ubicacion_origen_id", "ubicacion_destino_id", "cantidad"]):

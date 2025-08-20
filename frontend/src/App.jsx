@@ -8,37 +8,27 @@ import Transactions from './components/Transactions';
 import Locations from './components/Locations';
 import Blockchain from './components/Blockchain';
 import Users from './components/Users';
-import { AuthProvider } from './contexts/AuthContext';
+import Settings from './components/Settings';
 
 function App() {
   return (
     <Router>
-      <AuthProvider>
+      <Layout>
         <Routes>
-          <Route
-            path="/*"
-            element={
-                <Layout>
-                  <Routes>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/products" element={<Products />} />
-                    <Route path="/inventory" element={<Inventory />} />
-                    <Route path="/transactions" element={<Transactions />} />
-                    <Route path="/locations" element={<Locations />} />
-                    <Route path="/blockchain" element={<Blockchain />} />
-                    <Route path="/users" element={<Users />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/" element={<Navigate to="/dashboard" />} />
-                  </Routes>
-                </Layout>
-            }
-          />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/inventory" element={<Inventory />} />
+          <Route path="/transactions" element={<Transactions />} />
+          <Route path="/locations" element={<Locations />} />
+          <Route path="/blockchain" element={<Blockchain />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/" element={<Navigate to="/dashboard" />} />
         </Routes>
-      </AuthProvider>
+      </Layout>
     </Router>
   );
 }
 
 export default App;
-
 

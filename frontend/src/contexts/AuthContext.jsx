@@ -1,31 +1,15 @@
-import React, { createContext, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { createContext, useContext } from 'react';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Siempre autenticado
-  const [user, setUser] = useState({ username: 'guest', rol: 'usuario' }); // Usuario por defecto
-  const navigate = useNavigate();
-
-  const login = async () => {
-    // No hay lógica de login, simplemente navega al dashboard
-    navigate('/dashboard');
-    return { success: true };
-  };
-
-  const logout = () => {
-    // No hay lógica de logout, simplemente navega al dashboard
-    navigate('/dashboard');
-  };
-
+  // Sin autenticación, simplemente devolvemos un contexto vacío
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{}}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => useContext(AuthContext);
-
 
